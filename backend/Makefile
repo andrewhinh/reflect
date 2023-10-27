@@ -37,21 +37,11 @@ test:
 	pytest tests
 
 # Run app locally for development
-run-dev:
+dev:
 	uvicorn app.main:app --reload
 # --ssl-keyfile=./localhost+2-key.pem --ssl-certfile=./localhost+2.pem
 
-# Run app locally for production
-run-prod:
-	gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0
-# --keyfile=./localhost+2-key.pem --certfile=./localhost+2.pem
-
-# Deploy stag app
-deploy-stag:
-	heroku git:remote -a project-stag-api -r stag-api
-	git push stag-api dev:main
-
-# Deploy prod app
-deploy-prod:
-	heroku git:remote -a project-prod-api -r prod-api
-	git push prod-api main
+# Deploy app
+deploy:
+	heroku git:remote -a aurora-api -r aurora-api
+	git push aurora-api main

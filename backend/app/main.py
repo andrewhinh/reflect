@@ -19,16 +19,9 @@ app.include_router(
 )
 
 # CORS
-origins = [
-    "http://localhost:5173",
-    "https://localhost:5173",
-]
-allow_origin_regex = r"https://project-.*\.pages\.dev"
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_origin_regex=allow_origin_regex,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

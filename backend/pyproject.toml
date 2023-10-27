@@ -13,4 +13,4 @@ markers = [
 	"slow: marks a test as slow (deselect with '-m \"not slow\"']",
 	"data: marks a test as dependent on a data download (deselect with '-m \"not data\"')"
 ]
-addopts = "--cov app --cov tests --cov-branch --dev -m 'not data' --ignore-glob **/bootstrap.py"
+addopts = "--cov app --cov tests --cov-branch --main -m 'not data' --ignore-glob **/bootstrap.py"

@@ -8,18 +8,12 @@ Built with:
 
 ## Setup
 
-Either create the conda environment locally:
+Create the conda environment locally:
 
    ```bash
    make conda-update
-   conda activate project
+   conda activate aurora
    ```
-
-Or create the conda environment in a Docker container:
-
-- In [this guide](https://code.visualstudio.com/docs/devcontainers/containers#_getting-started):
-  - [Install the prerequisites](https://code.visualstudio.com/docs/devcontainers/containers#_getting-started).
-  - Then open the current working directory (`backend`) [in the container](https://code.visualstudio.com/docs/devcontainers/containers#_quick-start-open-an-existing-folder-in-a-container).
 
 Set up the conda environment:
 
@@ -31,9 +25,6 @@ Set up the conda environment:
 Create a `.env` file:
 
    ```bash
-   # Get an OpenAI API key: https://platform.openai.com/signup
-   OPENAI_API_KEY=<your key here>
-   echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
    JWT_SECRET=$(openssl rand -hex 32)
    echo "JWT_SECRET=$JWT_SECRET" >> .env
    ```
@@ -60,28 +51,12 @@ To run all tests:
 
 To run the backend locally,
 
-- In development mode:
-
    ```bash
-   make run-dev
-   ```
-
-- In production mode:
-
-   ```bash
-   make run-prod
+   make run
    ```
 
 To manually deploy the backend to Heroku:
 
-- For staging:
-
    ```bash
-   make deploy-stag
-   ```
-
-- For production:
-
-   ```bash
-   make deploy-prod
+   make deploy
    ```

@@ -2,6 +2,6 @@
 help:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST))
 
-# Deploy frontend
+# Deploy app
 deploy:
-	wrangler pages deploy .
+	vercel

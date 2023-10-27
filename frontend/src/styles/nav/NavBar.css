@@ -1,9 +1,0 @@
-nav {
-  margin: 0;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  min-width: 320px;
-  min-height: 10vh;
-  gap: 1rem;
-}
