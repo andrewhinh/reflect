@@ -1,0 +1,9 @@
+{
+  "name": "GPU Development Environment",
+
+  "image": "project/development:latest",
+
+  "extensions": ["ms-python.python"],
+
+  "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+}

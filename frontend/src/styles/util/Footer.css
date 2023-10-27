@@ -1,0 +1,19 @@
+footer {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 10vh;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gh-logo {
+  width: 10vw;
+  object-fit: contain;
+}
+
+.giphy-logo {
+  width: 20vw;
+  object-fit: contain;
+}

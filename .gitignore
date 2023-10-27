@@ -1,0 +1,5 @@
+# For developing in Docker
+.env
+
+# For local development
+.vscode

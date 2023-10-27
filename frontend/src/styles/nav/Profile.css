@@ -1,0 +1,17 @@
+.form-coll,
+form {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 10vh;
+  flex-direction: column;
+}
+
+.form-coll {
+  gap: 3rem;
+}
+
+form {
+  gap: 1rem;
+}
