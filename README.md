@@ -43,19 +43,13 @@ To bump transitive dependencies:
    make pip-tools-upgrade
    ```
 
-To lint the code manually:
-
-   ```bash
-   make lint
-   ```
-
 To run all tests:
 
    ```bash
    make test
    ```
 
-To run the backend locally,
+To run the backend locally:
 
    ```bash
    make run

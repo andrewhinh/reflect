@@ -20,15 +20,10 @@ pip-tools-upgrade:
 
 # Setup
 setup:
-	pre-commit install
 	export PYTHONPATH=.
 	echo "export PYTHONPATH=.:$PYTHONPATH" >> ~/.bashrc
 	mkcert -install
 	mkcert localhost 127.0.0.1 ::1
-
-# Lint
-lint:
-	pre-commit run --all-files
 
 # Test
 test:

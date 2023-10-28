@@ -1,7 +1,7 @@
 """The home page of the app."""
 
 from reflex_app import styles
-from reflex_app.templates import template
+from aurora.templates import template
 
 import reflex as rx
 

@@ -46,12 +46,8 @@ def menu_button() -> rx.Component:
                     for page in get_decorated_pages()
                 ],
                 rx.menu_divider(),
-                rx.menu_item(
-                    rx.link("About", href="https://github.com/reflex-dev", width="100%")
-                ),
-                rx.menu_item(
-                    rx.link("Contact", href="mailto:founders@=reflex.dev", width="100%")
-                ),
+                rx.menu_item(rx.link("About", href="https://github.com/reflex-dev", width="100%")),
+                rx.menu_item(rx.link("Contact", href="mailto:founders@=reflex.dev", width="100%")),
             ),
         ),
         position="fixed",
