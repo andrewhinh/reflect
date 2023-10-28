@@ -11,12 +11,14 @@ pip-tools:
 	pip install pip-tools==7.1.0 setuptools==68.0.0
 	pip-compile requirements/prod.in && pip-compile requirements/dev.in
 	pip-sync requirements/prod.txt requirements/dev.txt
+	cp requirements/prod.txt requirements.txt
 
 # Bump versions of transitive dependencies
 pip-tools-upgrade:
 	pip install pip-tools==7.1.0 setuptools==68.0.0
 	pip-compile --upgrade requirements/prod.in && pip-compile --upgrade requirements/dev.in
 	pip-sync requirements/prod.txt requirements/dev.txt
+	cp requirements/prod.txt requirements.txt
 
 # Setup
 setup:
