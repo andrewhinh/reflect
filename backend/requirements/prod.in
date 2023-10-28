@@ -4,5 +4,7 @@ passlib[bcrypt]
 python-jose[cryptography]
 python-multipart
 uvicorn[standard]
-langchain
+hume
+firebase-admin
 openai
+langchain
