@@ -52,7 +52,7 @@ To run all tests:
 To run the backend locally,
 
    ```bash
-   make run
+   make dev
    ```
 
 To manually deploy the backend to Heroku:
