@@ -5,3 +5,4 @@ python-jose[cryptography]
 python-multipart
 uvicorn[standard]
 hume
+firebase-admin
