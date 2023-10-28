@@ -38,6 +38,7 @@ click==8.1.7
 coverage[toml]==6.4
     # via
     #   -r requirements/dev.in
+    #   coverage
     #   pytest-cov
 darglint==1.8.1
     # via -r requirements/dev.in
