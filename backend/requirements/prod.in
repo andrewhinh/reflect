@@ -6,3 +6,5 @@ python-multipart
 uvicorn[standard]
 hume
 firebase-admin
+openai
+langchain

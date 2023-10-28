@@ -10,6 +10,7 @@ anyio==3.7.1
     #   httpcore
 attrs==23.1.0
     # via
+    #   -c requirements/prod.txt
     #   flake8-annotations
     #   flake8-bugbear
     #   pytest
@@ -98,6 +99,7 @@ mypy==0.960
     # via -r requirements/dev.in
 mypy-extensions==1.0.0
     # via
+    #   -c requirements/prod.txt
     #   black
     #   mypy
 nodeenv==1.8.0

@@ -20,7 +20,7 @@ def get_file(bucket_name, remote_storage_path):
     return dest_path
 
 
-# # example:
+# # Example:
 # from dotenv import load_dotenv
 # import os
 # load_dotenv()
