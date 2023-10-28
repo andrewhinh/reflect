@@ -22,8 +22,25 @@ def get_emotion_data(bucket_name: str, remote_storage_path: str):
     result = job.get_predictions()[0]
     transcript, data = result
     # TODO: process JSON to get
-    # 1) transcript to pass to GPT-4 and
-    # 2) raw emotion data to pass to frontend
+    # 1) transcript to pass to GPT-4 as a string and
+    # 2) raw emotion data to pass to frontend as JSON:
+    # {
+    #   "facemesh": [
+    #     {
+    #       "sentence": "Hi, my name is John.",
+    #       "emotion": {
+    #         "anger": 0.0,
+    #       },
+    #     },
+    #   ],
+    #   "prosody": [
+    #    {
+    #      "sentence": "Hi, my name is John.",
+    #     "emotion": {
+    #      "anger": 0.0,
+    #    },
+    #  ],
+    # }
     return transcript, data
 
 
