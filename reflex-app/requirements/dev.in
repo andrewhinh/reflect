@@ -1,0 +1,25 @@
+-c prod.txt
+
+bandit
+black
+boltons
+darglint
+defusedxml
+flake8
+flake8-annotations
+flake8-bandit
+flake8-bugbear
+flake8-black
+flake8-docstrings
+flake8-import-order
+httpx
+mypy==0.960
+# mypy version also pinned in .pre-commit-config.yaml
+pre-commit
+shellcheck-py
+toml
+types-toml
+# versioned to give pip hints
+coverage[toml]==6.4
+pytest==7.1.1
+pytest-cov==3.0.0
