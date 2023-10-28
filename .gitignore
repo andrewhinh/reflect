@@ -163,4 +163,8 @@ cython_debug/
 # Mkcert
 localhost*.pem
 
+# Reflex
+*.db
+*.py[cod]
 .web
+__pycache__/
