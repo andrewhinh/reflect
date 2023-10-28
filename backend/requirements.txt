@@ -54,6 +54,8 @@ h11==0.14.0
     # via uvicorn
 httptools==0.6.1
     # via uvicorn
+hume==0.4.1
+    # via -r requirements/prod.in
 idna==3.4
     # via
     #   anyio
@@ -110,6 +112,7 @@ pyyaml==6.0.1
     #   uvicorn
 requests==2.31.0
     # via
+    #   hume
     #   langchain
     #   langsmith
     #   openai
@@ -130,6 +133,7 @@ tqdm==4.66.1
 typing-extensions==4.8.0
     # via
     #   fastapi
+    #   hume
     #   pydantic
     #   pydantic-core
     #   sqlalchemy
