@@ -1,9 +1,9 @@
 """Welcome to Reflex!."""
 
-from reflex_app import styles
+from app import styles
 
 # Import all the pages.
-from reflex_app.pages import *
+from app.pages import *
 
 import reflex as rx
 

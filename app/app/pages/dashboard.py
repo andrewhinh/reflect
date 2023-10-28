@@ -1,5 +1,5 @@
 """The dashboard page."""
-from aurora.templates import template
+from app.templates import template
 
 import reflex as rx
 
