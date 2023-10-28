@@ -5,18 +5,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
-from .internal import admin
-from .routers import emotion, users
+
+from app.routers import emotion
 
 
 app = FastAPI()
-app.include_router(users.router)
 app.include_router(emotion.router)
-app.include_router(
-    admin.router,
-    prefix="/admin",
-    tags=["admin"],
-)
 
 # CORS
 app.add_middleware(
