@@ -113,6 +113,7 @@ export default function Question({
                     mode: "no-cors",
                 }
             );
+            console.log(await response.text());
             if (!response.ok) {
                 throw new Error("Network response was not OK");
             }

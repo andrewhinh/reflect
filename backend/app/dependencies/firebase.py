@@ -12,7 +12,7 @@ def get_file(bucket_name, remote_storage_path):
     """Get file from Firebase Storage."""
     try:
         initialize_app(
-            credentials.Certificate(json.loads(os.getenv("FIREBASE_JSON"))),
+            credentials.Certificate(os.getenv("FIREBASE_JSON")),
             {"storageBucket": bucket_name},
         )
     except Exception:
@@ -24,6 +24,6 @@ def get_file(bucket_name, remote_storage_path):
 
     # Download the file to the local path
     file_type = remote_storage_path.split(".")[-1]
-    dest_path = f"./{uuid.uuid4()}.{file_type}"
-    blob.download_to_filename(dest_path)
-    return dest_path
+    # dest_path = f"./{uuid.uuid4()}.{file_type}"
+    blob.download_to_filename(r"C:\Users\hajin\Desktop\Repositories\aurora\backend\app\test_videos\video.webm")
+    return r"C:\Users\hajin\Desktop\Repositories\aurora\backend\app\test_videos\video.webm"
