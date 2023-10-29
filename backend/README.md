@@ -25,8 +25,12 @@ Set up the conda environment:
 Create a `.env` file:
 
    ```bash
-   JWT_SECRET=$(openssl rand -hex 32)
-   echo "JWT_SECRET=$JWT_SECRET" >> .env
+   HUME_API_KEY=
+   OPENAI_API_KEY=
+   PATH_TO_FIREBASE_JSON=
+   echo "HUME_API_KEY=$HUME_API_KEY" >> .env
+   echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
+   echo "PATH_TO_FIREBASE_JSON=$PATH_TO_FIREBASE_JSON" >> .env
    ```
 
 ## Development
