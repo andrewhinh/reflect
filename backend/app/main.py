@@ -6,11 +6,12 @@ from fastapi.middleware.cors import CORSMiddleware
 load_dotenv()
 
 
-from app.routers import emotion
+from app.routers import emotion, question
 
 
 app = FastAPI()
 app.include_router(emotion.router)
+app.include_router(question.router)
 
 # CORS
 app.add_middleware(

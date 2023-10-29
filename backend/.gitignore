@@ -165,3 +165,7 @@ localhost*.pem
 
 # GC Storage
 credentials.json
+
+*.json
+/test_files
+*.webm
