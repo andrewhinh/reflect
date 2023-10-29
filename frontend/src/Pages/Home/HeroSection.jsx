@@ -91,7 +91,7 @@ export default function HeroSection() {
                                     <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                                         <div className="relative">
                                             <img
-                                                src="https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                                src="https://images.unsplash.com/photo-1549923746-c502d488b3ea?auto=format&fit=crop&q=80&w=1771&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                                 alt=""
                                                 className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                                             />
@@ -101,7 +101,7 @@ export default function HeroSection() {
                                     <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
                                         <div className="relative">
                                             <img
-                                                src="https://images.unsplash.com/photo-1578589302979-24448e95ef4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80"
+                                                src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1965&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                                 alt=""
                                                 className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                                             />
@@ -109,7 +109,7 @@ export default function HeroSection() {
                                         </div>
                                         <div className="relative">
                                             <img
-                                                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80"
+                                                src="https://images.unsplash.com/photo-1507537362848-9c7e70b7b5c1?auto=format&fit=crop&q=80&w=1770&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                                 alt=""
                                                 className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                                             />
@@ -119,7 +119,7 @@ export default function HeroSection() {
                                     <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
                                         <div className="relative">
                                             <img
-                                                src="https://images.unsplash.com/photo-1511798616182-aab3698ac53e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1952&q=80"
+                                                src="https://images.unsplash.com/photo-1459499362902-55a20553e082?auto=format&fit=crop&q=80&w=1910&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                                 alt=""
                                                 className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                                             />
@@ -127,7 +127,7 @@ export default function HeroSection() {
                                         </div>
                                         <div className="relative">
                                             <img
-                                                src="https://images.unsplash.com/photo-1575169778804-9a1752e5e07c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2121&q=80"
+                                                src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?auto=format&fit=crop&q=80&w=1769&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                                 alt=""
                                                 className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                                             />

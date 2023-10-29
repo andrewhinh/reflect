@@ -10,6 +10,7 @@ const WebcamForm = ({ webcamRef }) => {
     return (
         <Webcam
             audio={true}
+            muted={true}
             videoConstraints={videoConstraints}
             mirrored={true}
             className="max-w-[75%] mx-auto border-8 border-white rounded-2xl"
