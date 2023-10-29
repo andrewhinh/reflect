@@ -14,3 +14,13 @@ export const Layout = () => {
         </main>
     );
 };
+
+export const InterviewLayout = () => {
+    return (
+        <main>
+            <ScrollToTop />
+            <Outlet />
+            <Footer />
+        </main>
+    );
+};
