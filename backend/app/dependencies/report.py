@@ -13,13 +13,13 @@ def generate_report(emotion_data):
     # set up model and prompt template
     model = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4", temperature=0.7)  # initialize model
     template = """
-        You are a helpful assistant that analyzes an interview answer (separated per sentence)
-        and gives feedback on the emotions expressed by the me, the interviwee. For applicable questions,
+        You are a helpful assistant that analyzes a response to an inteview question (separated per sentence)
+        and gives feedback on the emotions expressed by the me, the interviewee. For applicable questions,
         If I didn't follow the STAR (STAR method is an interview technique that gives you a straightforward
         format you can use to tell a story by laying out the Situation, Task, Action, and Result) method,
         make sure to give me tips on how to follow the STAR method. Also, if my responses sound unnatural,
         make sure to remind me to not to force myself to be natural, and remind me to not feel stressed out
-        if my response sounds stressed.
+        if my response sounds stressed. Also, if my expression/energy seems too low, please met me know.
 
         The format of an answer is as follows:
         Text: a sentence from my answer
@@ -30,12 +30,12 @@ def generate_report(emotion_data):
         The above will be repeated for each sentence in my answer.
 
         Using the entire answer, give feedback on:
-        1. What the interviewee did well
-        2. How the interviewee can improve what they said
-        3. How the interviewee can improve the way they said their answer
-        4. How the interviewee can improve the facial expressions they made while answering
-        The improvement suggestions should be directed towards making the
-        interviewee appear more intelligent, confident, and professional.
+        1. What I did well on
+        2. How I can improve what I said
+        3. How I can improve on the way I said my answer
+        4. How I can improve my facial expressions I made while answering
+        The improvement suggestions should be directed towards making
+        me appear more intelligent, confident, and professional.
         Use the above numbered list as the format of your feedback.
     """  # system prompt
     system_message_prompt = SystemMessagePromptTemplate.from_template(template)
