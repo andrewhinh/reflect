@@ -1,4 +1,4 @@
-import { FaceWidgets } from "../widgets/FaceWidgets";
+import WebcamForm from "../Components/WebcamForm.jsx";
 
 export default function Interview() {
     return (
@@ -6,7 +6,7 @@ export default function Interview() {
             <div className="pb-6 text-2xl font-medium text-neutral-800">
                 Mock Interview
             </div>
-            <FaceWidgets />
+            <WebcamForm />
         </div>
     );
 }

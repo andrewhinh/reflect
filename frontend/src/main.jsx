@@ -5,7 +5,6 @@ import { Layout } from "./Utils/layout.jsx";
 import Error from "./Pages/Error.jsx";
 import Home from "./Pages/Home.jsx";
 import Interview from "./Pages/Interview.jsx";
-import Results from "./Pages/Results.jsx";
 import LogIn from "./Pages/LogIn.jsx";
 import SignUp from "./Pages/SignUp.jsx";
 import ChangePassword from "./Pages/ChangePassword.jsx";
@@ -24,10 +23,6 @@ const router = createBrowserRouter([
             {
                 path: "/interview",
                 element: <Interview />,
-            },
-            {
-                path: "/results",
-                element: <Results />,
             },
             {
                 path: "/login",

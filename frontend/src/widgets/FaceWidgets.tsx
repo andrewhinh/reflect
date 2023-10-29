@@ -1,43 +1,16 @@
-import { Emotion, EmotionName } from "../lib/data/emotion";
-import { None, Optional } from "../lib/utilities/typeUtilities";
 import { useEffect, useRef, useState } from "react";
-
-import { Descriptor } from "./Descriptor";
-import { FacePrediction } from "../lib/data/facePrediction";
-import { FaceTrackedVideo } from "./FaceTrackedVideo";
-import { LoaderSet } from "./LoaderSet";
-import { TopEmotions } from "./TopEmotions";
-import { TrackedFace } from "../lib/data/trackedFace";
-import { VideoRecorder } from "../lib/media/videoRecorder";
 import { blobToBase64 } from "../lib/utilities/blobUtilities";
+import { VideoRecorder } from "../lib/media/videoRecorder";
 
-type FaceWidgetsProps = {
-    onCalibrate: Optional<(emotions: Emotion[]) => void>;
-};
-
-export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
+export function FaceWidgets({ onCalibrate }) {
     const socketRef = useRef<WebSocket | null>(null);
     const recorderRef = useRef<VideoRecorder | null>(null);
     const photoRef = useRef<HTMLCanvasElement | null>(null);
     const mountRef = useRef(true);
     const recorderCreated = useRef(false);
     const numReconnects = useRef(0);
-    const [trackedFaces, setTrackedFaces] = useState<TrackedFace[]>([]);
-    const [emotions, setEmotions] = useState<Emotion[]>([]);
     const [status, setStatus] = useState("");
-    const numLoaderLevels = 5;
     const maxReconnects = 3;
-    const loaderNames: EmotionName[] = [
-        "Calmness",
-        "Joy",
-        "Amusement",
-        "Anger",
-        "Confusion",
-        "Disgust",
-        "Sadness",
-        "Horror",
-        "Surprise (negative)",
-    ];
 
     useEffect(() => {
         console.log("Mounting component");
@@ -58,7 +31,7 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
         } else {
             const baseUrl = "wss://api.hume.ai";
             const endpointUrl = `${baseUrl}/v0/stream/models`;
-            const socketUrl = `${endpointUrl}?apikey=${authContext.key}`;
+            const socketUrl = `${endpointUrl}?apikey=${process.env.REACT_APP_HUME_KEY}`;
             console.log(`Connecting to websocket... (using ${endpointUrl})`);
             setStatus(`Connecting to server...`);
 
@@ -90,8 +63,6 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
         setStatus("");
         const response = JSON.parse(event.data);
         console.log("Got response", response);
-        const predictions: FacePrediction[] = response.face?.predictions || [];
-        const warning = response.face?.warning || "";
         const error = response.error;
         if (error) {
             setStatus(error);
@@ -99,24 +70,6 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
             stopEverything();
             return;
         }
-
-        if (predictions.length === 0) {
-            setStatus(warning.replace(".", ""));
-            setEmotions([]);
-        }
-
-        const newTrackedFaces: TrackedFace[] = [];
-        predictions.forEach(async (pred: FacePrediction, dataIndex: number) => {
-            newTrackedFaces.push({ boundingBox: pred.bbox });
-            if (dataIndex === 0) {
-                const newEmotions = pred.emotions;
-                setEmotions(newEmotions);
-                if (onCalibrate) {
-                    onCalibrate(newEmotions);
-                }
-            }
-        });
-        setTrackedFaces(newTrackedFaces);
 
         await capturePhoto();
     }
@@ -136,7 +89,7 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
     async function socketOnError(event: Event) {
         console.error("Socket failed to connect: ", event);
         if (numReconnects.current >= maxReconnects) {
-            setStatus(`Failed to connect to the Hume API (${authContext.environment}).
+            setStatus(`Failed to connect to the Hume API (${process.env.REACT_APP_HUME_KEY}).
       Please log out and verify that your API key is correct.`);
             stopEverything();
         } else {
@@ -234,6 +187,13 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
     return (
         <div>
             <div className="md:flex">
+                <video
+                    className="absolute -scale-x-[1]"
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
+                ></video>
+                <canvas className="absolute" ref={canvasRef}></canvas>
                 <FaceTrackedVideo
                     className="mb-6"
                     onVideoReady={onVideoReady}
@@ -241,18 +201,6 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
                     width={500}
                     height={375}
                 />
-                {!onCalibrate && (
-                    <div className="ml-10">
-                        <TopEmotions emotions={emotions} />
-                        <LoaderSet
-                            className="mt-8 ml-5"
-                            emotionNames={loaderNames}
-                            emotions={emotions}
-                            numLevels={numLoaderLevels}
-                        />
-                        <Descriptor className="mt-8" emotions={emotions} />
-                    </div>
-                )}
             </div>
 
             <div className="pt-6">{status}</div>
@@ -260,7 +208,3 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
         </div>
     );
 }
-
-FaceWidgets.defaultProps = {
-    onCalibrate: None,
-};
