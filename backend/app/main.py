@@ -18,9 +18,6 @@ from app.routers import emotion, question
 
 
 app = FastAPI()
-app.include_router(emotion.router)
-app.include_router(question.router)
-
 # CORS
 app.add_middleware(
     CORSMiddleware,
@@ -29,6 +26,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(emotion.router)
+app.include_router(question.router)
 
 
 # Paths

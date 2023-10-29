@@ -28,6 +28,8 @@ config3 = [
 def get_emotion_data(bucket_name: str, remote_storage_path: str):
     # submit job
 
+    print(bucket_name)
+    print(remote_storage_path)
     path = get_file(bucket_name, remote_storage_path)
     print(path)
     job1 = client.submit_job([], config1, files=[path])
@@ -38,16 +40,30 @@ def get_emotion_data(bucket_name: str, remote_storage_path: str):
     job2.await_complete()
     job3.await_complete()
 
-    face_preds = job1.get_predictions()[0]["results"]["predictions"][0]["models"]["face"]["grouped_predictions"][0][
-        "predictions"
-    ]
-    # print(face_preds)
-    pro_preds = job2.get_predictions()[0]["results"]["predictions"][0]["models"]["language"]["grouped_predictions"][0][
-        "predictions"
-    ]
-    lang_preds = job3.get_predictions()[0]["results"]["predictions"][0]["models"]["prosody"]["grouped_predictions"][0][
-        "predictions"
-    ]
+    face_preds = []
+    pro_preds = []
+    lang_preds = []
+
+    try:
+        face_preds = job1.get_predictions()[0]["results"]["predictions"][0]["models"]["face"]["grouped_predictions"][0][
+            "predictions"
+        ]
+    except Exception:
+        print("Missing face")
+
+    try:
+        pro_preds = job2.get_predictions()[0]["results"]["predictions"][0]["models"]["language"]["grouped_predictions"][
+            0
+        ]["predictions"]
+    except Exception:
+        print("Missing words")
+
+    try:
+        lang_preds = job3.get_predictions()[0]["results"]["predictions"][0]["models"]["prosody"]["grouped_predictions"][
+            0
+        ]["predictions"]
+    except Exception:
+        print("Missing sounds")
 
     # format results
     frame_face_results, pro_results, lang_results = (
