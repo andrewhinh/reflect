@@ -43,5 +43,5 @@ dev:
 
 # Deploy app
 deploy:
-	heroku git:remote -a aurora-api -r aurora-api
-	git push aurora-api main
+	heroku git:remote -a reflect -r reflect
+	git push reflect main

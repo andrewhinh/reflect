@@ -1,4 +1,4 @@
-# Aurora
+# Reflect
 
 A multimodal emotion analysis tool for recruiters.
 
