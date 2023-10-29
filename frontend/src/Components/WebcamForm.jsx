@@ -1,4 +1,8 @@
 import { useCallback, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "../firebase.js";
+
 import Webcam from "react-webcam";
 
 const videoConstraints = {
@@ -11,6 +15,8 @@ const WebcamForm = () => {
     const [capturing, setCapturing] = useState(false);
     const [recordedChunks, setRecordedChunks] = useState([]);
     const [recordingURL, setRecordingURL] = useState(null);
+    const [uploadSuccess, setUploadSuccess] = useState(false);
+    const [uploadStatus, setUploadStatus] = useState(null);
 
     // MediaPlayer API webcam recording
     const handleDataAvailable = useCallback(
@@ -49,7 +55,6 @@ const WebcamForm = () => {
 
     const handleWebcamSubmit = async (e) => {
         e.preventDefault();
-        let form = new FormData();
         let blob;
 
         if (recordingURL) {
@@ -66,6 +71,25 @@ const WebcamForm = () => {
                 type: blob.type,
             }
         );
+        handleFileUpload(file);
+    };
+
+    const handleFileUpload = async (file) => {
+        try {
+            const userStorageID = currentUser.uid;
+            const userStorageRef = ref(
+                storage,
+                `${userStorageID}/${crypto.randomUUID()}`
+            );
+            await uploadBytes(userStorageRef, file);
+            console.log("Successfully uploaded file");
+            setUploadSuccess(true);
+            setUploadStatus("File uploaded!");
+        } catch (e) {
+            console.log("Error uploading file: ", e);
+            setUploadSuccess(false);
+            setUploadStatus("Upload failed");
+        }
     };
 
     return (
@@ -74,8 +98,8 @@ const WebcamForm = () => {
                 <span className="w-fit isolate inline-flex rounded-md shadow-sm">
                     {capturing ? (
                         <button
+                            type="submit"
                             onClick={handleStopCaptureClick}
-                            type="button"
                             className="relative inline-flex items-center rounded-l-md bg-white hover:bg-gray-50 px-3 py-2 text-lg font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 focus:z-10"
                         >
                             Finish Interview
@@ -96,13 +120,12 @@ const WebcamForm = () => {
                     )}
                 </span>
                 <span className="w-fit isolate inline-flex rounded-md shadow-sm">
-                    <button
-                        type="submit"
-                        disabled={!recordingURL}
+                    <NavLink
+                        to="/interview"
                         className="relative inline-flex items-center rounded-md bg-indigo-500 hover:bg-indigo-400 px-3 py-2 text-lg font-semibold text-white ring-1 ring-inset ring-gray-300 focus:z-10"
                     >
-                        Submit
-                    </button>
+                        Reset
+                    </NavLink>
                 </span>
             </div>
             <div className="w-full h-fit rounded-lg">
