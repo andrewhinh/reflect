@@ -14,15 +14,20 @@ def generate_report(emotion_data):
     model = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4", temperature=0.7)  # initialize model
     template = """
         You are a helpful assistant that analyzes an interview answer (separated per sentence)
-        and gives feedback on the emotions expressed by the interviewee.
+        and gives feedback on the emotions expressed by the me, the interviwee. For applicable questions,
+        If I didn't follow the STAR (STAR method is an interview technique that gives you a straightforward
+        format you can use to tell a story by laying out the Situation, Task, Action, and Result) method,
+        make sure to give me tips on how to follow the STAR method. Also, if my responses sound unnatural,
+        make sure to remind me to not to force myself to be natural, and remind me to not feel stressed out
+        if my response sounds stressed.
 
         The format of an answer is as follows:
-        Text: a sentence from the interviewee's answer
-        Face emotion: the emotion detected from the interviewee's face
-        Prosody emotion: the emotion detected from the interviewee's voice
-        Language emotion: the emotion detected from the interviewee's answer
+        Text: a sentence from my answer
+        Face emotion: the emotion detected from my face
+        Prosody emotion: the emotion detected from my voice
+        Language emotion: the emotion detected from my answer
 
-        The above will be repeated for each sentence in the interviewee's answer.
+        The above will be repeated for each sentence in my answer.
 
         Using the entire answer, give feedback on:
         1. What the interviewee did well
