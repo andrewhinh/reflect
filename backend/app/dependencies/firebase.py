@@ -1,8 +1,6 @@
-import json
-import os
 import uuid
 
-from firebase_admin import credentials, initialize_app, storage
+from firebase_admin import storage
 
 
 # For testing
@@ -17,6 +15,7 @@ def get_file(bucket_name, remote_storage_path):
         )
     except Exception:
         print("Firebase already initialized")
+        
     storage_client = storage.bucket(bucket_name)
 
     # Get a reference to the file you want to download
