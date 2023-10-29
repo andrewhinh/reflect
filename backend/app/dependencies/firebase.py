@@ -1,3 +1,4 @@
+import json
 import os
 import uuid
 
@@ -11,7 +12,7 @@ def get_file(bucket_name, remote_storage_path):
     """Get file from Firebase Storage."""
     try:
         initialize_app(
-            credentials.Certificate(os.getenv("PATH_TO_FIREBASE_JSON")),
+            credentials.Certificate(json.loads(os.getenv("FIREBASE_JSON"))),
             {"storageBucket": bucket_name},
         )
     except Exception:
