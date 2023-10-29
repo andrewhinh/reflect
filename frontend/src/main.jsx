@@ -1,10 +1,10 @@
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./Utils/authContext.jsx";
-import { Layout } from "./Utils/layout.jsx";
+import { Layout, InterviewLayout } from "./Utils/layout.jsx";
 import Error from "./Pages/Error.jsx";
-import Home from "./Pages/Home.jsx";
-import Interview from "./Pages/Interview.jsx";
+import Home from "./Pages/Home/Home.jsx";
+import Interview from "./Pages/Interview/Interview.jsx";
 import LogIn from "./Pages/LogIn.jsx";
 import SignUp from "./Pages/SignUp.jsx";
 import ChangePassword from "./Pages/ChangePassword.jsx";
@@ -21,10 +21,6 @@ const router = createBrowserRouter([
                 element: <Home />,
             },
             {
-                path: "/interview",
-                element: <Interview />,
-            },
-            {
                 path: "/login",
                 element: <LogIn />,
             },
@@ -37,6 +33,11 @@ const router = createBrowserRouter([
                 element: <ChangePassword />,
             },
         ],
+    },
+    {
+        path: "/interview",
+        element: <Interview />,
+        errorElement: <Error />,
     },
 ]);
 
