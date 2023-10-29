@@ -9,11 +9,12 @@ from langchain.prompts.chat import (
 )
 
 
-def generate_report(emotion_data):
+def generate_report(emotion_data, question):
     # set up model and prompt template
     model = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4", temperature=0.7)  # initialize model
-    template = """
-        You are a helpful assistant that analyzes a response to an inteview question (separated per sentence)
+    template = f"""
+        You are a helpful assistant that analyzes a response to the interview question:{question}
+        (separated per sentence)
         and gives feedback on the emotions expressed by the me, the interviewee. For applicable questions,
         If I didn't follow the STAR (STAR method is an interview technique that gives you a straightforward
         format you can use to tell a story by laying out the Situation, Task, Action, and Result) method,
