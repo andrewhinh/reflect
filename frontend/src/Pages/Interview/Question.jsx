@@ -102,7 +102,7 @@ export default function Question({
         };
         try {
             const response = await fetch(
-                `http://localhost:8000/emotion?bucket_name=${data.bucket_name}&remote_storage_path=${data.remote_storage_path}`,
+                `http://localhost:8000/emotion?bucket_name=${data.bucket_name}&remote_storage_path=${data.remote_storage_path}&question=${questions[`question_${interviewState}`]}`,
                 {
                     method: "POST",
                     headers: {

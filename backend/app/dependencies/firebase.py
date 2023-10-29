@@ -14,7 +14,6 @@ def get_file(bucket_name, remote_storage_path):
     blob = storage_client.blob(remote_storage_path)
 
     # Download the file to the local path
-    file_type = remote_storage_path.split(".")[-1]
-    dest_path = f"./{uuid.uuid4()}.{file_type}"
+    dest_path = f"./{uuid.uuid4()}.webm"
     blob.download_to_filename(dest_path)
     return dest_path

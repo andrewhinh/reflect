@@ -16,38 +16,25 @@ configs = [
     LanguageConfig(granularity="sentence"),
     ProsodyConfig(granularity="sentence"),
 ]
-config1 = [FaceConfig()]
-config2 = [
-    LanguageConfig(granularity="sentence"),
-]
-config3 = [
-    ProsodyConfig(granularity="sentence"),
-]
 
 
 def get_emotion_data(bucket_name: str, remote_storage_path: str):
     # submit job
-
     path = get_file(bucket_name, remote_storage_path)
-    print(path)
-    job1 = client.submit_job([], config1, files=[path])
-    job2 = client.submit_job([], config2, files=[path])
-    job3 = client.submit_job([], config3, files=[path])
+    job = client.submit_job([], configs, files=[path])
+    job.await_complete()
 
-    job1.await_complete()
-    job2.await_complete()
-    job3.await_complete()
+    # get results
+    preds = job.get_predictions()
+    preds = preds[0]  # only one file
+    preds = preds["results"]["predictions"][0]["models"]  # results for all configs
 
-    face_preds = job1.get_predictions()[0]["results"]["predictions"][0]["models"]["face"]["grouped_predictions"][0][
-        "predictions"
-    ]
-    # print(face_preds)
-    pro_preds = job2.get_predictions()[0]["results"]["predictions"][0]["models"]["language"]["grouped_predictions"][0][
-        "predictions"
-    ]
-    lang_preds = job3.get_predictions()[0]["results"]["predictions"][0]["models"]["prosody"]["grouped_predictions"][0][
-        "predictions"
-    ]
+    def get_preds(config_preds):  # get predictions for a config
+        return config_preds["grouped_predictions"][0]["predictions"]
+
+    face_preds = get_preds(preds["face"])
+    pro_preds = get_preds(preds["prosody"])
+    lang_preds = get_preds(preds["language"])
 
     # format results
     frame_face_results, pro_results, lang_results = (
