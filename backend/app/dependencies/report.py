@@ -9,7 +9,7 @@ from langchain.prompts.chat import (
 )
 
 
-def generate_report(emotion_data):
+def generate_report(emotion_data, question):
     # set up model and prompt template
     model = ChatOpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4", temperature=0.7)  # initialize model
     template = """
