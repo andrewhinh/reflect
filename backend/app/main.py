@@ -1,9 +1,17 @@
 """Main application and routing logic for the API."""
+import json
+import os
+
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from firebase_admin import credentials, initialize_app
 
 load_dotenv()
+
+initialize_app(
+    credentials.Certificate(json.loads(os.getenv("FIREBASE_JSON"))),
+)
 
 
 from app.routers import emotion, question
