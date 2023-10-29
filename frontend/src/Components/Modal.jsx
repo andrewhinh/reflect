@@ -1,11 +1,14 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Modal({ number, question, handleStartCaptureClick }) {
     const [open, setOpen] = useState(true);
-
     const cancelButtonRef = useRef(null);
+
+    useEffect(() => {
+        setOpen(true);
+    }, [number]);
 
     return (
         <Transition.Root show={open} as={Fragment}>

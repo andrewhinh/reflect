@@ -7,23 +7,28 @@ import WebcamForm from "./WebcamForm";
 import Modal from "../../Components/Modal.jsx";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 
-export default function Question({ category, setInterviewState }) {
+export default function Question({
+    category,
+    setInterviewState,
+    interviewState,
+    sessionId,
+}) {
     const { currentUser } = useAuth();
     const webcamRef = useRef(null);
     const mediaRecorderRef = useRef(null);
-    const [capturing, setCapturing] = useState(false);
     const [recordedChunks, setRecordedChunks] = useState([]);
-    const [recordingURL, setRecordingURL] = useState(null);
     const [questions, setQuestions] = useState({});
-    const [uploadSuccess, setUploadSuccess] = useState(false);
-    const [uploadStatus, setUploadStatus] = useState(null);
+    const [userData, setUserData] = useState({});
 
     useEffect(() => {
-        const docRef = doc(db, "categories", category);
-        const unsubscribe = onSnapshot(docRef, (doc) => {
+        const categoryDocRef = doc(db, "categories", category);
+        const userDocRef = doc(db, "users", currentUser.uid);
+        onSnapshot(categoryDocRef, (doc) => {
             setQuestions(doc.data());
         });
-        return unsubscribe;
+        onSnapshot(userDocRef, (doc) => {
+            setUserData(doc.data());
+        });
     }, []);
 
     // MediaPlayer API webcam recording
@@ -37,7 +42,6 @@ export default function Question({ category, setInterviewState }) {
     );
 
     const handleStartCaptureClick = useCallback(() => {
-        setCapturing(true);
         mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
             mimeType: "video/webm",
         });
@@ -46,57 +50,79 @@ export default function Question({ category, setInterviewState }) {
             handleDataAvailable
         );
         mediaRecorderRef.current.start(10);
-    }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
+    }, [webcamRef, mediaRecorderRef, handleDataAvailable]);
 
-    const handleStopCaptureClick = useCallback(() => {
+    const handleWebcamSubmit = async () => {
         mediaRecorderRef.current.stop();
-        setCapturing(false);
         if (recordedChunks.length) {
-            const blob = new Blob(recordedChunks, {
+            const videoBlob = new Blob(recordedChunks, {
                 type: "video/webm",
             });
-            const url = URL.createObjectURL(blob);
-            setRecordingURL(url);
-            setRecordedChunks([]);
-        }
-    }, [mediaRecorderRef, setCapturing, recordedChunks]);
+            const url = URL.createObjectURL(videoBlob);
 
-    const handleWebcamSubmit = async (e) => {
-        e.preventDefault();
-        let blob;
+            if (url) {
+                // Fetch the data from the URL and convert it into a blob
+                const response = await fetch(url);
+                let blob = await response.blob();
 
-        if (recordingURL) {
-            // Fetch the data from the URL and convert it into a blob
-            const response = await fetch(recordingURL);
-            blob = await response.blob();
-        }
-
-        // Create a File object from the Blob
-        let file = new File(
-            [blob],
-            blob.type === "image/webp" ? "media.webp" : "media.webm",
-            {
-                type: blob.type,
+                // Create a File object from the Blob
+                let file = new File(
+                    [blob],
+                    blob.type === "image/webp" ? "media.webp" : "media.webm",
+                    {
+                        type: blob.type,
+                    }
+                );
+                uploadFile(file);
             }
-        );
-        handleFileUpload(file);
+        }
+        setInterviewState((e) => e + 1);
     };
 
-    const handleFileUpload = async (file) => {
+    const uploadFile = async (file) => {
+        let id = crypto.randomUUID();
         try {
             const userStorageID = currentUser.uid;
             const userStorageRef = ref(
                 storage,
-                `${userStorageID}/${crypto.randomUUID()}`
+                `${userStorageID}/${sessionId}/${id}`
             );
             await uploadBytes(userStorageRef, file);
+            sendHumeRequest(id);
             console.log("Successfully uploaded file");
-            setUploadSuccess(true);
-            setUploadStatus("File uploaded!");
         } catch (e) {
             console.log("Error uploading file: ", e);
-            setUploadSuccess(false);
-            setUploadStatus("Upload failed");
+        }
+    };
+
+    const sendHumeRequest = async (id) => {
+        const data = {
+            bucket_name: "calhacks-10.appspot.com",
+            remote_storage_path: `${currentUser.uid}/${sessionId}/${id}`,
+        };
+        try {
+            const response = await fetch(
+                `http://localhost:8000/emotion?bucket_name=${data.bucket_name}&remote_storage_path=${data.remote_storage_path}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "http://localhost:8000",
+                        "Access-Control-Allow-Credentials": "true",
+                    },
+                    mode: "no-cors",
+                }
+            );
+            if (!response.ok) {
+                throw new Error("Network response was not OK");
+            }
+            let text = await response.text();
+            console.log(JSON.parse(text));
+        } catch (error) {
+            console.error(
+                "There has been a problem with your POST operation: ",
+                error
+            );
         }
     };
 
@@ -107,11 +133,13 @@ export default function Question({ category, setInterviewState }) {
     return (
         <div className="px-4 sm:px-6 lg:px-8 min-h-screen relative isolate overflow-hidden bg-gray-900">
             <section className="absolute top-0">
-                <Modal
-                    number="Question 1"
-                    question={questions["question_1"]}
-                    handleStartCaptureClick={handleStartCaptureClick}
-                />
+                {Object.keys(questions).length >= interviewState && (
+                    <Modal
+                        number={`Question ${interviewState}`}
+                        question={questions[`question_${interviewState}`]}
+                        handleStartCaptureClick={handleStartCaptureClick}
+                    />
+                )}
             </section>
             <div className="w-full pb-32 flex flex-col sm:flex-row justify-between">
                 <header className="py-5">
@@ -133,23 +161,16 @@ export default function Question({ category, setInterviewState }) {
                     Exit
                 </button>
             </div>
-            <main className="-mt-32 ">
-                <div className="mx-auto max-w-7xl">
-                    <div className="max-h-[60%] rounded-lg bg-white px-5 py-6 shadow sm:px-6">
-                        <form onSubmit={handleWebcamSubmit} className="w-full">
-                            <div className="w-full flex flex-col md:flex-row gap-x-8 gap-y-4 place-content-center">
-                                <span className="w-fit isolate inline-flex rounded-md shadow-sm">
-                                    <button
-                                        type="submit"
-                                        disabled={!recordingURL}
-                                        className="relative inline-flex items-center rounded-md bg-indigo-500 hover:bg-indigo-400 px-3 py-2 text-lg font-semibold text-white ring-1 ring-inset ring-gray-300 focus:z-10"
-                                    >
-                                        Complete
-                                    </button>
-                                </span>
-                            </div>
-                            <div className="w-full h-fit rounded-lg">
-                                {recordingURL && (
+            {Object.keys(questions).length >= interviewState ? (
+                <main onClick={handleWebcamSubmit} className="-mt-32 ">
+                    <div className="mx-auto max-w-7xl">
+                        <div className="max-h-[60%] rounded-lg bg-white px-5 py-6 shadow sm:px-6">
+                            <section className="w-full">
+                                <p className="animate-pulse text-center text-lg font-normal">
+                                    Click anywhere to finish
+                                </p>
+                                <div className="w-full h-fit rounded-lg">
+                                    {/* {recordingURL && (
                                     <video
                                         autoPlay
                                         className="mx-auto border-8 border-white rounded-2xl rotate mirrored"
@@ -159,16 +180,41 @@ export default function Question({ category, setInterviewState }) {
                                             type="video/webm"
                                         />
                                     </video>
-                                )}
+                                )} */}
 
-                                {!recordingURL && (
                                     <WebcamForm webcamRef={webcamRef} />
-                                )}
-                            </div>
-                        </form>
+                                </div>
+                            </section>
+                        </div>
                     </div>
-                </div>
-            </main>
+                </main>
+            ) : (
+                <main>
+                    <div className="mx-auto max-w-7xl">
+                        <div className="h-full rounded-lg bg-white px-5 py-6 shadow sm:px-6">
+                            <section className="w-full text-center space-y-8">
+                                <h1 className="">
+                                    Congratulations! You have completed all
+                                    interview questions. 🎉
+                                </h1>
+                                <p className="">Review your answers or exit.</p>
+                                <button
+                                    type="button"
+                                    onClick={handleExitClick}
+                                    className="self-center inline-flex h-fit w-fit items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                >
+                                    <XCircleIcon
+                                        className="-ml-0.5 h-5 w-5"
+                                        aria-hidden="true"
+                                    />
+                                    Exit
+                                </button>
+                            </section>
+                        </div>
+                    </div>
+                </main>
+            )}
+
             <svg
                 viewBox="0 0 1024 1024"
                 className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"

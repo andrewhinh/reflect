@@ -28,6 +28,8 @@ config3 = [
 def get_emotion_data(bucket_name: str, remote_storage_path: str):
     # submit job
 
+    print(bucket_name)
+    print(remote_storage_path)
     path = get_file(bucket_name, remote_storage_path)
     print(path)
     job1 = client.submit_job([], config1, files=[path])

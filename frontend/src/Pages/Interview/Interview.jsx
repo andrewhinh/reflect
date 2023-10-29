@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useId } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../Utils/authContext.jsx";
 import StartInterview from "./StartInterview.jsx";
@@ -9,6 +9,7 @@ export default function Interview() {
     const { currentUser } = useAuth();
     const [interviewState, setInterviewState] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [sessionId, setSessionId] = useState(crypto.randomUUID());
 
     return currentUser ? (
         <section className="h-screen bg-white">
@@ -23,7 +24,9 @@ export default function Interview() {
             ) : (
                 <Question
                     category={selectedCategory}
+                    interviewState={interviewState}
                     setInterviewState={setInterviewState}
+                    sessionId={sessionId}
                 />
             )}
         </section>
